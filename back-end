@@ -1,0 +1,61 @@
+///thesau
+import nltk
+from nltk.corpus import wordnet
+import io
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+import fileinput
+import re
+
+from nltk.stem import PorterStemmer
+
+def myfun(query):
+
+    query1=""
+
+    stop_words = set(stopwords.words('english'))
+    words = query.split()
+    for r in words:
+        if not r in stop_words:
+            query1+=r
+            query1+=" "
+
+    print(query1)
+
+    q2 = ''.join(i for i in query1 if not i.isdigit())
+
+    print(q2)
+
+    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+
+    q3 = ""
+    for char in q2:
+        if char not in punctuations:
+            q3+=char
+    print(q3)
+
+    ps = PorterStemmer()
+    q4=""
+
+    words = q3.split()
+    for w in words:
+        q4+=ps.stem(w)
+        q4+=" "
+
+    print(q4)
+    synonyms = []
+
+
+    words = q4.split()
+    for r in words:
+        for syn in wordnet.synsets(r):
+            for l in syn.lemmas():
+                synonyms.append(l.name())
+
+    print(synonyms)
+    str1 = ' '.join(synonyms)
+
+    q5=q4+str1
+    print(q5)
+    return q5
