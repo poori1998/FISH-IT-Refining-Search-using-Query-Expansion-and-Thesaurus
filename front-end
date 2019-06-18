@@ -1,0 +1,45 @@
+from tkinter import *
+import electhesauri
+import webbrowser
+from googlesearch import search
+
+root = Tk()
+
+root.geometry('1000x500')
+topframe = Frame(root)
+topframe.pack()
+bottomframe = Frame(root)
+bottomframe.pack(side=BOTTOM)
+
+one=Label(topframe,text="Fish it!",bg="white",fg="Blue",font="55")
+one.grid(row=10,column=4)
+
+photo = PhotoImage(file= "U1.png")
+two = Label(topframe, image=photo)
+two.grid(row=11,column=4)
+
+
+entry =Entry(topframe)
+entry.grid(row=16,column=4)
+
+lbl3=Label(bottomframe)
+lbl3.grid(row=18,column=4,sticky=N)
+
+lbl4=Label(bottomframe)
+lbl4.grid(row=20,column=4)
+
+def clicked():
+    res="Input query:"+entry.get()
+    final=electhesauri.myfun(entry.get())
+    lbl3.configure(text=res)
+    lbl4.configure(text="Expanded query: "+final)
+    for j in search(final, tld="co.in", num=10, stop=1, pause=2):
+        print(j)
+
+    #webbrowser.open('http://www.google.com/search?q=')
+
+entry.bind('<Return>', clicked())
+button1=Button(topframe,text="Search",fg="red",command=clicked)
+button1.grid(row=17,column=4)
+
+root.mainloop()
